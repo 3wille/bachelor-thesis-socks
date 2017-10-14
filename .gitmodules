@@ -1,0 +1,3 @@
+[submodule "socks5"]
+	path = socks5
+	url = git@github.com:oov/socks5.git
