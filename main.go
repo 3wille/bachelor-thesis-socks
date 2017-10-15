@@ -21,14 +21,15 @@ func main() {
 
   srv := socks5.New()
   srv.AuthUsernamePasswordCallback = func(c *socks5.Conn, username, password []byte) error {
-    user := string(username)
+    // user := string(username)
     // if user != "guest" {
     //   return socks5.ErrAuthenticationFailed
     // }
 
     // log.Printf("Welcome %v!", user)
     // log.Printf("Password: %v", string(password))
-    c.Data = user
+    c.User = string(username)
+    c.Password = string(password)
     return nil
   }
   srv.HandleConnectFunc(func(c *socks5.Conn, host string) (newHost string, err error) {
