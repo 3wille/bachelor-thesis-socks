@@ -1,3 +1,3 @@
 [submodule "socks5"]
 	path = socks5
-	url = git@github.com:oov/socks5.git
+	url = git@github.com:3wille/socks5.git
