@@ -3,13 +3,11 @@ package main
 import (
   "log"
   "net"
-
   "./socks5"
 )
 
 // main function of the executable
 func main() {
-
   // try to get the interface
   ief, err := net.InterfaceByName("eth0")
   if err != nil {
