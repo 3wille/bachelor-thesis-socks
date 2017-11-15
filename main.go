@@ -3,24 +3,33 @@ package main
 import (
   "log"
   "net"
+  "github.com/jinzhu/configor"
   "./socks5"
 )
 
+// config file schema
+var Config = struct{
+  Prefixes []string `required: true`
+}{}
+
 // main function of the executable
 func main() {
-  // try to get the interface
-  ief, err := net.InterfaceByName("eth0")
-  if err != nil {
-    log.Fatal(err)
-  }
-  // try to retrieve the addresses configured on above interface
-  addrs, err := ief.Addrs()
-  if err != nil {
-    log.Fatal(err)
-  }
-  log.Printf("A: %v", addrs)
+  // load config with above schema
+	configor.Load(&Config, "config.yml")
+	log.Printf("config: %#v", Config.Prefixes)
 
-  srv := socks5.New()
+  // parse strings from config file to IP objects
+  var prefixes []net.IP
+  for _, prefix := range Config.Prefixes {
+    prefixIP, _, err := net.ParseCIDR(prefix)
+    if err != nil {
+      log.Printf("%v", err)
+      return
+    }
+    prefixes = append(prefixes, prefixIP)
+  }
+
+  srv := socks5.New(prefixes)
 
   // This callback is executed after receiving the authentication message of the
   // client. It sets the User and Password field on the Connection Object.
