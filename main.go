@@ -10,6 +10,7 @@ import (
 // config file schema
 var Config = struct{
   Prefixes []string `required: true`
+  SingleAddress bool `default:false`
 }{}
 
 // main function of the executable
@@ -47,13 +48,27 @@ func main() {
     // log.Printf("Password: %v", string(password))
 
     // save User and Password on the Connection
-    c.User = user_string
-    c.Password = password_string
+    if !Config.SingleAddress {
+      c.User = user_string
+      c.Password = password_string
+    } else {
+      c.User = "A"
+      c.Password = "B"
+    }
+    return nil
+  }
+
+  // This callback is executed when no authentication was provided.
+  // It just accepts the incoming connection and uses the same IP address
+  // for each request. This is used for debugging purposes.
+  srv.AuthNoAuthenticationRequiredCallback = func(c *socks5.Conn) error {
+    c.User = "no_auth"
+    c.Password = "no_auth"
     return nil
   }
 
   // This callback is executed when a CONNECT command was received. The target
-  // might be changed or an error return.
+  // might be changed or an error returned.
   srv.HandleConnectFunc(func(c *socks5.Conn, host string) (newHost string, err error) {
     // if host == "example.com:80" {
     //   return host, socks5.ErrConnectionNotAllowedByRuleset
