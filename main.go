@@ -62,11 +62,12 @@ func main() {
 	// This callback is executed when no authentication was provided.
 	// It just accepts the incoming connection and uses the same IP address
 	// for each request. This is used for debugging purposes.
-	srv.AuthNoAuthenticationRequiredCallback = func(c *socks5.Conn) error {
-		c.User = "no_auth"
-		c.Password = "no_auth"
-		return nil
-	}
+	srv.AuthNoAuthenticationRequiredCallback = nil
+	// srv.AuthNoAuthenticationRequiredCallback = func(c *socks5.Conn) error {
+	// 	c.User = "no_auth"
+	// 	c.Password = "no_auth"
+	// 	return nil
+	// }
 
 	// This callback is executed when a CONNECT command was received. The target
 	// might be changed or an error returned.
