@@ -1,6 +1,7 @@
 # IPv6 Address hopping - SOCKS5 proxy
 
-This repository is part of my thesis "Design and Implementation of Context-aware IPv6 Address Hopping".
+This repository is part of my thesis "Design and Implementation of Context-aware IPv6 Address Hopping". It is further used in the paper "Context-aware IPv6 Address Hopping" by M. Marx, M. Schwarz, M. Blochberger, F. Wille and H. Federrath published in the proceedings of [ICICS'19](http://www.icics.cn/).
+
 To a browser, the proxy behaves similar to the one delivered with Tor and The Tor Browser.
 
 ## Initialize Subrepository
